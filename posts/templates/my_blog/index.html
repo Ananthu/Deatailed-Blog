@@ -1,0 +1,41 @@
+{% extends 'my_blog/base.html' %}
+
+{% block content %}	
+<div class="col-sm-8 col-sm-offset-2">
+	<h1>MyBlog</h1>
+	{% for lt in lists %}
+		<div class="row">
+		  <div class="col-sm-12">
+		    <div class="thumbnail">
+		      {% if lt.image%}
+		      <img src="{{ lt.image.url }}" class="img-responsive">
+		      {% endif %}
+		      <!img src="..." alt="...">
+		      <div class="caption">
+		        <h3><a href="{% url 'posts:detail' lt.id %}">{{ lt.title}}</a><small>  {{ lt.timestamp|timesince }} ago</small></h3>
+		        <p>{{ lt.content|linebreaks|truncatechars:120 }}</p>
+		        <p><a href="{% url 'posts:detail' lt.id %}" class="btn btn-primary" role="button">View</a></p>
+		      </div>
+		    </div>
+		  </div>
+		
+	
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if lists.has_previous %}
+            <a href="?page={{ lists.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ lists.number }} of {{ lists.paginator.num_pages }}.
+        </span>
+
+        {% if lists.has_next %}
+            <a href="?page={{ lists.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div> 
+	{% endfor %}
+{% endblock %}
